@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parithi.patientlist.utils.Constants;
 import com.parithi.patientlist.utils.Utils;
@@ -41,22 +42,24 @@ public class PatientDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Get the data from the bundle
-        if (getIntent() != null && getIntent().getExtras() != null) {
-            patientName = getIntent().getStringExtra(Constants.PATIENT_NAME);
-            patientGender = getIntent().getStringExtra(Constants.PATIENT_GENDER);
-            patientBirthDate = new Date(getIntent().getLongExtra(Constants.PATIENT_GENDER, 0L));
-        }
-
         // Assign views to view references
         patientNameTextView = findViewById(R.id.patient_name_textview);
         patientBirthDateTextView = findViewById(R.id.patient_birth_date_textview);
         patientGenderTextView = findViewById(R.id.patient_gender_textview);
 
-        // Set the data
-        patientGenderTextView.setText(patientGender);
-        patientBirthDateTextView.setText(Utils.getFormattedDate(patientBirthDate));
-        patientNameTextView.setText(patientName);
+        // Get the data from the bundle
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            patientName = getIntent().getStringExtra(Constants.PATIENT_NAME);
+            patientGender = getIntent().getStringExtra(Constants.PATIENT_GENDER);
+            patientBirthDate = new Date(getIntent().getLongExtra(Constants.PATIENT_GENDER, 0L));
+
+            // Set the data
+            patientGenderTextView.setText(patientGender);
+            patientBirthDateTextView.setText(Utils.getFormattedDate(patientBirthDate));
+            patientNameTextView.setText(patientName);
+        } else {
+            Toast.makeText(PatientDetailActivity.this,R.string.unable_to_retreive_data,Toast.LENGTH_LONG).show();
+        }
     }
 
     // Finish the activity on pressing back button
