@@ -1,8 +1,9 @@
-package com.parithi.patientlist;
+package com.parithi.patientlist.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.parithi.patientlist.R;
 import com.parithi.patientlist.fragments.PatientListFragment;
 
 public class MainActivity extends AppCompatActivity {

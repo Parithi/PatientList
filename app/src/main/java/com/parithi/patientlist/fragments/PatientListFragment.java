@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parithi.patientlist.PatientDetailActivity;
+import com.parithi.patientlist.activities.PatientDetailActivity;
 import com.parithi.patientlist.R;
 import com.parithi.patientlist.helpers.PatientHelper;
 import com.parithi.patientlist.models.Patient;

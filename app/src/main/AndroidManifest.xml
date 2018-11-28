@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:screenOrientation="portrait" android:name=".MainActivity">
+        <activity android:screenOrientation="portrait" android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PatientDetailActivity"
+            android:name=".activities.PatientDetailActivity"
             android:label="@string/title_activity_patient_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
