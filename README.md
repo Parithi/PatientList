@@ -13,8 +13,8 @@ Libraries Used : ButterKnife, Room, Android Architecture components, Glide
 
 # Workflow
 
-   - Launch the app
-   - Wait for the data to get loaded from the network
+   - Launch the app.
+   - Wait for the data to get loaded from the network.
    - Once the data is loaded and saved to database, the list is populated with the data (10 items)
    - The user can search through the list by clicking the search button and entering the text. The data is searched by the name.
    - The user can also filter the data by name, gender and birthdate.
