@@ -1,6 +1,6 @@
 package com.parithi.patientlist;
 
-import com.parithi.patientlist.helpers.PatientHelper;
+import com.parithi.patientlist.helpers.PatientApiHelper;
 
 import org.hl7.fhir.dstu3.model.Patient;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class UnitTests {
     // Checks whether we get only 10 times from the response
     @Test
     public void checkDataCount() {
-        assertEquals(10, PatientHelper.getInstance().getFHIR().size());
+        assertEquals(10, PatientApiHelper.getInstance().getFHIR().size());
     }
 
     // Checks whether all the names are valid in the response
@@ -29,7 +29,7 @@ public class UnitTests {
     public void checkValidNames() {
         boolean hasValidNames = true;
         try{
-            List<Patient> patientList = PatientHelper.getInstance().getFHIR();
+            List<Patient> patientList = PatientApiHelper.getInstance().getFHIR();
 
             for(Patient patient : patientList){
                 if(patient.getName().get(0).getNameAsSingleString()==null || patient.getName().get(0).getNameAsSingleString().trim().length() == 0){
@@ -48,7 +48,7 @@ public class UnitTests {
     public void checkValidDates() {
         boolean hasValidDates = true;
         try{
-            List<Patient> patientList = PatientHelper.getInstance().getFHIR();
+            List<Patient> patientList = PatientApiHelper.getInstance().getFHIR();
 
             for(Patient patient : patientList){
                 if(patient.getBirthDate() == null || !(patient.getBirthDate() instanceof Date)){
@@ -67,7 +67,7 @@ public class UnitTests {
     public void checkValidGenders() {
         boolean hasValidGenders = true;
         try{
-            List<Patient> patientList = PatientHelper.getInstance().getFHIR();
+            List<Patient> patientList = PatientApiHelper.getInstance().getFHIR();
 
             for(Patient patient : patientList){
                 if(patient.getGender()==null || !patient.getGender().getDisplay().toLowerCase().matches("male|female|other|unknown")){

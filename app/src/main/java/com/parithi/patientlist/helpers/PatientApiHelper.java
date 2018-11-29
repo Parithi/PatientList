@@ -10,23 +10,23 @@ import ca.uhn.fhir.okhttp.client.OkHttpRestfulClientFactory;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.util.BundleUtil;
 
-public class PatientHelper {
+public class PatientApiHelper {
 
-    public static final String TAG = PatientHelper.class.getSimpleName();
+    public static final String TAG = PatientApiHelper.class.getSimpleName();
 
-    private static volatile PatientHelper patientHelper;
+    private static volatile PatientApiHelper patientApiHelper;
     private static final Object LOCK = new Object();
 
     // Singleton reference
-    public static PatientHelper getInstance(){
-        if(patientHelper == null){
+    public static PatientApiHelper getInstance(){
+        if(patientApiHelper == null){
             synchronized (LOCK){
-                if(patientHelper == null){
-                    patientHelper = new PatientHelper();
+                if(patientApiHelper == null){
+                    patientApiHelper = new PatientApiHelper();
                 }
             }
         }
-        return patientHelper;
+        return patientApiHelper;
     }
 
 

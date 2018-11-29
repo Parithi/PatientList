@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.parithi.patientlist.database.PatientDatabase;
 import com.parithi.patientlist.database.patients.PatientEntity;
-import com.parithi.patientlist.helpers.PatientHelper;
+import com.parithi.patientlist.helpers.PatientApiHelper;
 import com.parithi.patientlist.utils.NetworkCallBack;
 
 import org.hl7.fhir.dstu3.model.Patient;
@@ -15,8 +15,6 @@ import org.hl7.fhir.dstu3.model.Patient;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 public class PatientRepository {
 
@@ -93,7 +91,7 @@ public class PatientRepository {
     public void fetchDataFromServer(NetworkCallBack networkCallBack){
         executor.execute(() -> {
             try{
-                for (Patient patient : PatientHelper.getFHIR()) {
+                for (Patient patient : PatientApiHelper.getFHIR()) {
                     patientDatabase.patientDAO().insertPatientData(new PatientEntity(patient.getId(), patient.getName().get(0).getNameAsSingleString(), patient.getBirthDate(), patient.getGender().getDisplay()));
                 }
                 if(networkCallBack!=null){
