@@ -8,6 +8,7 @@ import java.util.List;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.okhttp.client.OkHttpRestfulClientFactory;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.param.DateRangeParam;
 import ca.uhn.fhir.util.BundleUtil;
 
 public class PatientApiHelper {
@@ -37,6 +38,8 @@ public class PatientApiHelper {
         ctx = FhirContext.forDstu3();
         ctx.setRestfulClientFactory(new OkHttpRestfulClientFactory(ctx));
         client = ctx.newRestfulGenericClient("http://fhirtest.uhn.ca/baseDstu3");
+
+        // .lastUpdated(new DateRangeParam("2011-01-01","2018-11-25"))
         Bundle bundle = client.search().forResource(Patient.class)
                 .where(Patient.NAME.isMissing(false))
                 .and(Patient.BIRTHDATE.isMissing(false))
