@@ -14,13 +14,17 @@ Libraries Used : ButterKnife, Room, Android Architecture components, Glide
 
 ### Screens
 
-![List](1.png | width=400)
+![List](1.png)
 
-![Search](2.png | width=400)
 
-![Filter](3.png | width=400)
+![Search](2.png)
 
-![Edit](4.png | width=400)
 
-![Change Date](5.png | width=400)
+![Filter](3.png)
+
+
+![Edit](4.png)
+
+
+![Change Date](5.png)
 
