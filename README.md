@@ -1,4 +1,4 @@
-# PatientList - Advanced Version
+# PatientList - Bonus Version
 
 Technology Used : Java, FHIR, Android Studio
 
