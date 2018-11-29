@@ -1,7 +1,5 @@
 package com.parithi.patientlist;
 
-import android.text.TextUtils;
-
 import com.parithi.patientlist.helpers.PatientHelper;
 
 import org.hl7.fhir.dstu3.model.Patient;
@@ -10,7 +8,8 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
