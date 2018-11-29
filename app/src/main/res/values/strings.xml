@@ -2,10 +2,13 @@
     <string name="app_name">PatientList</string>
     <string name="no_data_found_label">No data available</string>
     <string name="title_activity_patient_detail">PatientDetailActivity</string>
-    <string name="home_title">Patient List</string>
-    <string name="patient_detail_title">Patient Detail</string>
+    <string name="home_title">Patients</string>
+    <string name="patient_detail_title">Edit Patient</string>
     <string name="unable_to_refresh_data">Unable to refresh data</string>
     <string name="search_label">Search</string>
     <string name="filter_data_label">Filter</string>
     <string name="sort_by_label">Sort Patients</string>
+    <string name="gender_label">Gender</string>
+    <string name="birthdate_label">Birth Date</string>
+    <string name="name_label">Name</string>
 </resources>

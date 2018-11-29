@@ -53,9 +53,10 @@ public class PatientListFragment extends Fragment {
     private PatientListAdapter patientListAdapter;
 
     private PatientListViewModel patientListViewModel;
+    private String searchQuery;
 
     private PatientRepository.SORT_METHODS currentSortMethod = PatientRepository.SORT_METHODS.SORT_BY_NAME;
-    private String[] sortByLabels = {"By Name","By Gender", "By Birth Date"};
+    private String[] sortByLabels = {"By Name","By Birth Date","By Gender"};
 
     // Empty constructor
     public PatientListFragment() { }
@@ -99,16 +100,31 @@ public class PatientListFragment extends Fragment {
         patientListRecyclerView.setAdapter(patientListAdapter);
 
         patientListViewModel = ViewModelProviders.of(this).get(PatientListViewModel.class);
-        patientListViewModel.fetchPatientDataFromDb(PatientRepository.SORT_METHODS.SORT_BY_NAME,null);
 
-        patientListViewModel.getPatientData().observe(this, patientEntities -> {
-            notifyData(patientEntities);
-        });
+        updateData();
 
         patientListViewModel.getErrorCode().observe(this,networkCode -> {
             if(networkCode == FAILURE){
                 showError(Constants.UNABLE_TO_RETREIVE_DATA);
             }
+        });
+
+        patientListViewModel.getShowLoading().observe(this ,showLoading->{
+            if(showLoading){
+                progressBar.setVisibility(View.VISIBLE);
+                messageTextView.setVisibility(View.GONE);
+            } else {
+                progressBar.setVisibility(View.GONE);
+                messageTextView.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void updateData() {
+        patientListViewModel.fetchPatientDataFromDb(currentSortMethod,searchQuery);
+        patientListViewModel.getPatientData().observe(this, patientEntities -> {
+            Log.d("TROUBLE","data updated");
+            notifyData(patientEntities);
         });
     }
 
@@ -145,10 +161,11 @@ public class PatientListFragment extends Fragment {
             public boolean onQueryTextChange(String newQuery) {
                 Log.d(PatientListFragment.class.getSimpleName(), "onQueryTextChange: Searching : " + newQuery);
                 if (TextUtils.isEmpty(newQuery)) {
-                    patientListViewModel.fetchPatientDataFromDb(currentSortMethod,null);
+                    searchQuery = null;
                 } else {
-                    patientListViewModel.fetchPatientDataFromDb(currentSortMethod,newQuery);
+                    searchQuery = newQuery;
                 }
+                updateData();
                 return true;
             }
         });
@@ -177,9 +194,9 @@ public class PatientListFragment extends Fragment {
 
 
     public void notifyData(List<PatientEntity> updatedPatientData) {
-        progressBar.setVisibility(View.GONE);
         if(updatedPatientData !=null) {
             if(updatedPatientData.size() > 0){
+                Log.d("TROUBLE","updatedDataCount : " + updatedPatientData.size());
                 patientList.clear();
                 patientList.addAll(updatedPatientData);
                 patientListRecyclerView.setVisibility(View.VISIBLE);
@@ -188,7 +205,9 @@ public class PatientListFragment extends Fragment {
             } else {
                 patientListRecyclerView.setVisibility(View.GONE);
                 messageTextView.setText(R.string.no_data_found_label);
-                messageTextView.setVisibility(View.VISIBLE);
+                if(progressBar.getVisibility()==View.GONE){
+                    messageTextView.setVisibility(View.VISIBLE);
+                }
             }
         } else {
             messageTextView.setText(R.string.unable_to_refresh_data);
@@ -198,18 +217,10 @@ public class PatientListFragment extends Fragment {
     private void showSortAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.sort_by_label);
-        builder.setItems(sortByLabels, (dialog, which) -> {
-            switch (which){
-                case 0:
-                    patientListViewModel.fetchPatientDataFromDb(PatientRepository.SORT_METHODS.SORT_BY_NAME,null);
-                    break;
-                case 1:
-                    patientListViewModel.fetchPatientDataFromDb(PatientRepository.SORT_METHODS.SORT_BY_GENDER,null);
-                    break;
-                case 2:
-                    patientListViewModel.fetchPatientDataFromDb(PatientRepository.SORT_METHODS.SORT_BY_GENDER,null);
-                    break;
-            }
+        builder.setSingleChoiceItems(sortByLabels,currentSortMethod.getValue(), (dialog, which) -> {
+            currentSortMethod = PatientRepository.SORT_METHODS.values()[which];
+            updateData();
+            dialog.dismiss();
         });
         builder.show();
     }
@@ -240,7 +251,7 @@ public class PatientListFragment extends Fragment {
             holder.patientNameTextView.setText(patientList.get(position).getName());
             holder.patientBirthDateTextView.setText(patientList.get(position).getGender());
             if(getActivity()!=null){
-                Glide.with(getActivity()).load("https://picsum.photos/g/36?s="+position).into(holder.patientImageView);
+                Glide.with(getActivity()).load("https://picsum.photos/g/128?random="+patientList.get(position).getId()).into(holder.patientImageView);
             }
             holder.itemView.setOnClickListener(v -> {
                 Intent patientDetailIntent = new Intent(getActivity(),PatientDetailActivity.class);
