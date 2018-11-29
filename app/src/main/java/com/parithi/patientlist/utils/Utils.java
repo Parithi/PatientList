@@ -34,4 +34,8 @@ public class Utils {
         genderArray.add("Other");
         return genderArray;
     }
+
+    public static String getImageUrl(int imageSize, String random) {
+        return "https://picsum.photos/g/"+imageSize+"?random=" + random;
+    }
 }

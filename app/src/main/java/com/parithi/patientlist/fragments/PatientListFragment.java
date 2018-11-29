@@ -31,6 +31,7 @@ import com.parithi.patientlist.activities.PatientDetailActivity;
 import com.parithi.patientlist.database.patients.PatientEntity;
 import com.parithi.patientlist.repositories.PatientRepository;
 import com.parithi.patientlist.utils.Constants;
+import com.parithi.patientlist.utils.Utils;
 import com.parithi.patientlist.viewmodels.PatientListViewModel;
 
 import java.util.ArrayList;
@@ -88,6 +89,12 @@ public class PatientListFragment extends Fragment {
         return inflatedView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateData();
+    }
+
     // Once view is created, initialize the required views
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -100,8 +107,6 @@ public class PatientListFragment extends Fragment {
         patientListRecyclerView.setAdapter(patientListAdapter);
 
         patientListViewModel = ViewModelProviders.of(this).get(PatientListViewModel.class);
-
-        updateData();
 
         patientListViewModel.getErrorCode().observe(this,networkCode -> {
             if(networkCode == FAILURE){
@@ -196,7 +201,6 @@ public class PatientListFragment extends Fragment {
     public void notifyData(List<PatientEntity> updatedPatientData) {
         if(updatedPatientData !=null) {
             if(updatedPatientData.size() > 0){
-                Log.d("TROUBLE","updatedDataCount : " + updatedPatientData.size());
                 patientList.clear();
                 patientList.addAll(updatedPatientData);
                 patientListRecyclerView.setVisibility(View.VISIBLE);
@@ -251,7 +255,7 @@ public class PatientListFragment extends Fragment {
             holder.patientNameTextView.setText(patientList.get(position).getName());
             holder.patientBirthDateTextView.setText(patientList.get(position).getGender());
             if(getActivity()!=null){
-                Glide.with(getActivity()).load("https://picsum.photos/g/128?random="+patientList.get(position).getId()).into(holder.patientImageView);
+                Glide.with(getActivity()).load(Utils.getImageUrl(128,patientList.get(position).getId())).into(holder.patientImageView);
             }
             holder.itemView.setOnClickListener(v -> {
                 Intent patientDetailIntent = new Intent(getActivity(),PatientDetailActivity.class);

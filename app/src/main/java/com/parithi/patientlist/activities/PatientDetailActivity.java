@@ -69,7 +69,7 @@ public class PatientDetailActivity extends AppCompatActivity {
                 patientNameEditTextView.setText(patientEntity.getName());
                 patientBirthDateEditTextView.setText(Utils.getFormattedDate(patientEntity.getBirthDate()));
                 patientGenderSpinner.setSelection(genderArray.indexOf(patientEntity.getGender().trim()));
-                Glide.with(this).load("https://picsum.photos/g/128?random="+patientEntity.getId()).into(patientImageView);
+                Glide.with(this).load(Utils.getImageUrl(128,patientEntity.getId())).into(patientImageView);
 
                 patientBirthDateEditTextView.setOnClickListener(v -> {
                     Calendar mcurrentDate= new GregorianCalendar();
