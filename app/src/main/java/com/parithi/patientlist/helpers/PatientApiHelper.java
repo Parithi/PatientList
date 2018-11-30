@@ -8,7 +8,6 @@ import java.util.List;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.okhttp.client.OkHttpRestfulClientFactory;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.param.DateRangeParam;
 import ca.uhn.fhir.util.BundleUtil;
 
 public class PatientApiHelper {

@@ -3,7 +3,6 @@ package com.parithi.patientlist.repositories;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-import android.util.Log;
 
 import com.parithi.patientlist.database.PatientDatabase;
 import com.parithi.patientlist.database.patients.PatientEntity;
