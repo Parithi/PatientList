@@ -125,6 +125,7 @@ public class PatientListFragment extends Fragment {
         });
     }
 
+    // Fetches the data from viewmodel and refreshes the observers
     private void updateData() {
         patientListViewModel.fetchPatientDataFromDb(currentSortMethod,searchQuery);
         patientListViewModel.getPatientData().observe(this, patientEntities -> {
@@ -133,6 +134,7 @@ public class PatientListFragment extends Fragment {
         });
     }
 
+    // Shows Error Messages
     private void showError(int errorStringResourceId) {
         Toast.makeText(getActivity(),errorStringResourceId,Toast.LENGTH_LONG).show();
     }
@@ -144,6 +146,7 @@ public class PatientListFragment extends Fragment {
         searchItem.setVisible(true);
     }
 
+    // Setting up Search & Filter
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.patient_list, menu);
@@ -164,7 +167,6 @@ public class PatientListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newQuery) {
-                Log.d(PatientListFragment.class.getSimpleName(), "onQueryTextChange: Searching : " + newQuery);
                 if (TextUtils.isEmpty(newQuery)) {
                     searchQuery = null;
                 } else {
@@ -197,7 +199,8 @@ public class PatientListFragment extends Fragment {
         return true;
     }
 
-
+    // Called when data is fetched and new list of data is obtained
+    // Updates the views with data
     public void notifyData(List<PatientEntity> updatedPatientData) {
         if(updatedPatientData !=null) {
             if(updatedPatientData.size() > 0){
@@ -218,6 +221,7 @@ public class PatientListFragment extends Fragment {
         }
     }
 
+    // Shows Sort By Alert Dialog
     private void showSortAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.sort_by_label);

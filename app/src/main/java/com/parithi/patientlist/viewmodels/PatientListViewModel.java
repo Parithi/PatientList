@@ -24,12 +24,15 @@ public class PatientListViewModel extends AndroidViewModel {
     private LiveData<List<PatientEntity>> patientData;
     private Executor executor = Executors.newSingleThreadExecutor();
 
+    // Intialize View Model
     public PatientListViewModel(@NonNull Application application) {
         super(application);
         repository = PatientRepository.getInstance(application.getApplicationContext());
         patientData = repository.getPatientList();
     }
 
+    // Get Patient data from DB or Server
+    // If no records are found in table, get data from Server and store it
     public void fetchPatientDataFromDb(PatientRepository.SORT_METHODS sortBy, String query) {
         executor.execute(()->{
             int patientListCount = repository.getCount();
@@ -43,6 +46,7 @@ public class PatientListViewModel extends AndroidViewModel {
         });
     }
 
+    // For showing Progress Bar
     public MutableLiveData<Boolean> getShowLoading() {
         return showLoading;
     }
@@ -59,6 +63,7 @@ public class PatientListViewModel extends AndroidViewModel {
         this.errorCode.postValue(errorCode);
     }
 
+    // Tells PatientRepository to fetch data from server and save it to DB
     public void fetchDataFromServer(PatientRepository.SORT_METHODS sortBy){
         repository.fetchDataFromServer(new NetworkCallBack(){
 

@@ -11,4 +11,5 @@
     <string name="gender_label">Gender</string>
     <string name="birthdate_label">Birth Date</string>
     <string name="name_label">Name</string>
+    <string name="invalid_name_error_text">Invalid Name</string>
 </resources>

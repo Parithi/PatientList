@@ -39,7 +39,8 @@ public class PatientApiHelper {
         ctx.setRestfulClientFactory(new OkHttpRestfulClientFactory(ctx));
         client = ctx.newRestfulGenericClient("http://fhirtest.uhn.ca/baseDstu3");
 
-        // .lastUpdated(new DateRangeParam("2011-01-01","2018-11-25"))
+        // .lastUpdated(new DateRangeParam("2011-01-01","2018-11-25")) - to get latest data
+        // Not used since unable to get proper records with names
         Bundle bundle = client.search().forResource(Patient.class)
                 .where(Patient.NAME.isMissing(false))
                 .and(Patient.BIRTHDATE.isMissing(false))

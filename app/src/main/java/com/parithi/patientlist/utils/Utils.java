@@ -15,6 +15,7 @@ public class Utils {
         return format.format(date);
     }
 
+    // Convert string (MM-dd-YYYY) to date
     public static Date getParsedDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy",Locale.CANADA);
         try {
@@ -25,6 +26,7 @@ public class Utils {
         }
     }
 
+    // Gender array for Spinner
     public static ArrayList<String> getGenderArray() {
         ArrayList<String> genderArray = new ArrayList<>();
         genderArray.add("");
@@ -35,7 +37,9 @@ public class Utils {
         return genderArray;
     }
 
-    public static String getImageUrl(int imageSize, String random) {
-        return "https://picsum.photos/g/"+imageSize+"?random=" + random;
+    // Get Random Images
+    public static String getImageUrl(int imageSize, String id) {
+        return "https://picsum.photos/g/"+imageSize+"?random=" + id;
     }
+
 }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,17 +32,22 @@ import butterknife.ButterKnife;
 
 public class PatientDetailActivity extends AppCompatActivity {
 
-    // variables to store patient name, gender and birthdate
+    // variables to store patientId
     String patientId;
+
+    // Boolean to check whether the device is in EditMode
     boolean isEditMode;
 
+    // Bind view instances to view resources
     @BindView(R.id.patient_name_textview) EditText patientNameEditTextView;
     @BindView(R.id.patient_birth_date_textview) TextView patientBirthDateEditTextView;
     @BindView(R.id.patient_gender_textview) Spinner patientGenderSpinner;
     @BindView(R.id.profile_imageview) ImageView patientImageView;
 
+    // Array for displaying genders
     private ArrayList<String> genderArray = Utils.getGenderArray();
 
+    // ViewModel to handle related functionalities of this view
     private PatientEditViewModel viewModel;
 
     @Override
@@ -55,14 +61,18 @@ public class PatientDetailActivity extends AppCompatActivity {
         if(savedInstanceState!=null) {
             isEditMode = savedInstanceState.getBoolean(Constants.EDIT_MODE);
         }
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        // Bind data to view resources
         ButterKnife.bind(this);
 
+        // Initiate the spinner for showing genders
         patientGenderSpinner.setAdapter(new ArrayAdapter<String>(this, R.layout.gender_spinner_item, genderArray));
 
+        // Initiate the view model and observe patient data changes
         viewModel = ViewModelProviders.of(this).get(PatientEditViewModel.class);
         viewModel.getPatientDetail().observe(this,patientEntity -> {
             if(patientEntity!=null && !isEditMode){
@@ -74,16 +84,16 @@ public class PatientDetailActivity extends AppCompatActivity {
                 patientBirthDateEditTextView.setOnClickListener(v -> {
                     Calendar mcurrentDate= new GregorianCalendar();
                     mcurrentDate.setTime(patientEntity.getBirthDate());
-                    int mYear=mcurrentDate.get(Calendar.YEAR);
-                    int mMonth=mcurrentDate.get(Calendar.MONTH);
-                    int mDay=mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                    int currentYear=mcurrentDate.get(Calendar.YEAR);
+                    int currentMonth=mcurrentDate.get(Calendar.MONTH);
+                    int currentDay=mcurrentDate.get(Calendar.DAY_OF_MONTH);
 
                     DatePickerDialog mDatePicker=new DatePickerDialog(PatientDetailActivity.this, (view, year, month, dayOfMonth) -> {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(year, month, dayOfMonth);
                         patientEntity.setBirthDate(calendar.getTime());
                         patientBirthDateEditTextView.setText(Utils.getFormattedDate(calendar.getTime()));
-                    }, mYear, mMonth, mDay);
+                    }, currentYear, currentMonth, currentDay);
                     mDatePicker.setTitle(R.string.birthdate_label);
                     mDatePicker.show();
                 });
@@ -92,7 +102,7 @@ public class PatientDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Get the data from the bundle
+        // Get the id from the bundle and fetch data from ViewModel
         if (getIntent() != null && getIntent().getExtras() != null) {
             patientId = getIntent().getStringExtra(Constants.PATIENT_ID);
             viewModel.fetchPatientDetail(patientId);
@@ -107,22 +117,32 @@ public class PatientDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                saveDetails();
-                finish();
+                onBackPressed();
                 break;
         }
         return true;
     }
 
-    private void saveDetails() {
-        viewModel.savePatientData(patientNameEditTextView.getText().toString(),Utils.getParsedDate(patientBirthDateEditTextView.getText().toString()),patientGenderSpinner.getSelectedItem().toString());
+    // Save the details of the patient
+    private boolean saveDetails() {
+        if(!TextUtils.isEmpty(patientNameEditTextView.getText().toString())){
+            viewModel.savePatientData(patientNameEditTextView.getText().toString(),Utils.getParsedDate(patientBirthDateEditTextView.getText().toString()),patientGenderSpinner.getSelectedItem().toString());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        if(saveDetails()){
+            finish();
+        } else {
+            Toast.makeText(this,R.string.invalid_name_error_text,Toast.LENGTH_LONG).show();
+        }
     }
 
+    // Save isMode if config changes
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(Constants.EDIT_MODE,isEditMode);
