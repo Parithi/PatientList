@@ -30,19 +30,12 @@ import static org.mockito.Mockito.when;
 public class PatientDetailActivityTest {
 
     private static final String TAG = "PatientDetailActivityTests";
-    private PatientEditViewModel viewModel = mock(PatientEditViewModel.class);
-    private MutableLiveData<PatientEntity> patientLiveData = new MutableLiveData<PatientEntity>();
-
-    @Before
-    public void initialize(){
-        patientLiveData.postValue(new PatientEntity("1","ElamParithi Arul",new Date(),"male"));
-        when(viewModel.getPatientDetail()).thenReturn(patientLiveData);
-    }
 
     @Rule
     public ActivityTestRule<PatientDetailActivity> patientDetailActivityActivityTestRule = new ActivityTestRule<>(
             PatientDetailActivity.class,true,false);
 
+    // Checking the patientdetail activity for null intents
     @Test
     public void checkForNullPatient(){
         patientDetailActivityActivityTestRule.launchActivity(null);
@@ -50,6 +43,7 @@ public class PatientDetailActivityTest {
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(expectedTitle)));
     }
 
+    // Checking the patientdetail activity for invalid data
     @Test
     public void checkForInvalidPatient(){
         Intent patientDetailIntent = new Intent();

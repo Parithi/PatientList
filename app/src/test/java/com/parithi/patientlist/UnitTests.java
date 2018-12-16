@@ -19,11 +19,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class UnitTests {
 
-    @Before
-    public void setupBefore(){
-
-    }
-
     // Checks whether we get only 10 times from the response
     @Test
     public void checkDataCount() {

@@ -28,6 +28,7 @@ public class RepositoryUnitTests {
     private PatientRepository patientRepository;
     private PatientApiHelper apiHelper;
 
+    // Mocking the PatientAPIHelper class to generate dummy patient data
     @Before
     public void initialize(){
         patientRepository = PatientRepository.getInstance(InstrumentationRegistry.getTargetContext());
@@ -41,6 +42,7 @@ public class RepositoryUnitTests {
         when(apiHelper.getFHIR()).thenReturn(dummyPatients);
     }
 
+    // Generates a single dummy patient
     private Patient getNewDummyPatient(String id) {
         Patient patient = new Patient();
         patient.setId(id);
@@ -53,12 +55,14 @@ public class RepositoryUnitTests {
         return patient;
     }
 
+    // Checks whether all data is inserted to DB
     @Test
     public void checkForValidInsertion(){
         patientRepository.insertPatientDataToDB(apiHelper.getFHIR());
-        assertEquals(10,patientRepository.getCount());
+        assertEquals(apiHelper.getFHIR().size(),patientRepository.getCount());
     }
 
+    // Clears the DB once the test is done
     @After
     public void destroyDB(){
         patientRepository.clearData();
