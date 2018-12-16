@@ -20,9 +20,9 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class InstrumentedTests {
+public class DAOTests {
 
-    public static final String LOG_TAG = InstrumentedTests.class.getSimpleName();
+    public static final String LOG_TAG = DAOTests.class.getSimpleName();
     private PatientDatabase patientDatabase;
     private PatientDAO patientDAO;
 

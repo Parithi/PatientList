@@ -94,16 +94,17 @@ public class PatientDetailActivity extends AppCompatActivity {
                     mDatePicker.setTitle(R.string.birthdate_label);
                     mDatePicker.show();
                 });
-
-
+            } else {
+                setTitle(R.string.no_data_found_label);
             }
         });
 
         // Get the id from the bundle and fetch data from ViewModel
-        if (getIntent() != null && getIntent().getExtras() != null) {
+        if (getIntent() != null && getIntent().getExtras() !=null && getIntent().getStringExtra(Constants.PATIENT_ID) != null) {
             patientId = getIntent().getStringExtra(Constants.PATIENT_ID);
             viewModel.fetchPatientDetail(patientId);
         } else {
+            setTitle(R.string.no_data_found_label);
             Toast.makeText(PatientDetailActivity.this,R.string.unable_to_refresh_data,Toast.LENGTH_LONG).show();
         }
 

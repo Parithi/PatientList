@@ -76,9 +76,7 @@ public class PatientRepository {
     public void fetchDataFromServer(NetworkCallBack networkCallBack){
         executor.execute(() -> {
             try{
-                for (Patient patient : PatientApiHelper.getFHIR()) {
-                    patientDatabase.patientDAO().insertPatientData(new PatientEntity(patient.getId(), patient.getName().get(0).getNameAsSingleString(), patient.getBirthDate(), patient.getGender().getDisplay()));
-                }
+                insertPatientDataToDB(PatientApiHelper.getInstance().getFHIR());
                 if(networkCallBack!=null){
                     networkCallBack.onSuccess();
                 }
@@ -89,6 +87,12 @@ public class PatientRepository {
                 }
             }
         });
+    }
+
+    public void insertPatientDataToDB(List<Patient> patients) {
+        for (Patient patient : patients) {
+            patientDatabase.patientDAO().insertPatientData(new PatientEntity(patient.getId(), patient.getName().get(0).getNameAsSingleString(), patient.getBirthDate(), patient.getGender().getDisplay()));
+        }
     }
 
     // Retrieves patient data for a particular ID
@@ -105,6 +109,12 @@ public class PatientRepository {
     public void savePatientDetail(final PatientEntity patientEntity){
         executor.execute(()->{
             patientDatabase.patientDAO().insertPatientData(patientEntity);
+        });
+    }
+
+    public void clearData() {
+        executor.execute(()->{
+            patientDatabase.patientDAO().deleteAllPatientData();
         });
     }
 

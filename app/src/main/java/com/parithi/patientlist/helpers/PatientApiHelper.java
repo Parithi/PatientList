@@ -31,7 +31,7 @@ public class PatientApiHelper {
 
 
     // Perform the network operation and returns the patients objects
-    public static List<Patient> getFHIR() {
+    public List<Patient> getFHIR() {
         IGenericClient client;
         FhirContext ctx;
         ctx = FhirContext.forDstu3();

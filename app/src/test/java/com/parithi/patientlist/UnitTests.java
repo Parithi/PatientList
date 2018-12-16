@@ -3,6 +3,7 @@ package com.parithi.patientlist;
 import com.parithi.patientlist.helpers.PatientApiHelper;
 
 import org.hl7.fhir.dstu3.model.Patient;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
@@ -18,6 +19,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class UnitTests {
 
+    @Before
+    public void setupBefore(){
+
+    }
+
     // Checks whether we get only 10 times from the response
     @Test
     public void checkDataCount() {
@@ -29,6 +35,7 @@ public class UnitTests {
     public void checkValidNames() {
         boolean hasValidNames = true;
         try{
+            PatientApiHelper.getInstance();
             List<Patient> patientList = PatientApiHelper.getInstance().getFHIR();
 
             for(Patient patient : patientList){
@@ -48,6 +55,7 @@ public class UnitTests {
     public void checkValidDates() {
         boolean hasValidDates = true;
         try{
+            PatientApiHelper.getInstance();
             List<Patient> patientList = PatientApiHelper.getInstance().getFHIR();
 
             for(Patient patient : patientList){
