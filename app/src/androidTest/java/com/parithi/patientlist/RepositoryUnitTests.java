@@ -33,6 +33,7 @@ public class RepositoryUnitTests {
     public void initialize(){
         patientRepository = PatientRepository.getInstance(InstrumentationRegistry.getTargetContext());
         apiHelper = mock(PatientApiHelper.class);
+        patientRepository.clearData();
 
         List<Patient> dummyPatients = new ArrayList<>();
         for(int i=0;i<10;i++){
